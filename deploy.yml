@@ -1,0 +1,31 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create .env for Vite
+        run: |
+          echo "VITE_API_KEY=${{ secrets.API_KEY }}" >> .env
+          echo "VITE_AUTH_DOMAIN=${{ secrets.AUTH_DOMAIN }}" >> .env
+          echo "VITE_PROJECT_ID=${{ secrets.PROJECT_ID }}" >> .env
+          echo "VITE_STORAGE_BUCKET=${{ secrets.STORAGE_BUCKET }}" >> .env
+          echo "VITE_SENDER_ID=${{ secrets.SENDER_ID }}" >> .env
+          echo "VITE_APP_ID=${{ secrets.APP_ID }}" >> .env
+
+      - name: Install & build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

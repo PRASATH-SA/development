@@ -1,0 +1,167 @@
+:root{
+  --brand:#2b4eff;
+  --accent:#ffb100;
+  --muted:#6c757d;
+}
+
+/* page */
+body.premium-bg{ background: #f6f6f6; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+
+/* header */
+.brand-text{ color:var(--brand); font-weight:700; letter-spacing:0.6px; }
+header img{ filter: none; }
+
+/* banner panel */
+.banner-panel{
+  background-image: url('banner.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 320px;
+  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.banner-overlay{
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.45));
+  color: #fff;
+  padding: 40px;
+  text-align:center;
+  border-radius: 4px;
+}
+.banner-overlay h2{ font-size:28px; margin-bottom:6px; font-weight:700; }
+.banner-overlay p{ opacity:0.9; }
+
+/* card inputs & buttons */
+.premium-input{
+  height:46px; border-radius:8px; border:1px solid #e6e6e6; padding-left:12px;
+}
+.premium-input:focus{ box-shadow: 0 6px 20px rgba(43,78,255,0.08); border-color:var(--brand); outline:none; }
+
+.premium-btn{ border-radius:10px; font-weight:600; padding:10px 14px; }
+.btn-primary{ background:var(--brand); border:none; }
+.btn-warning{ background:var(--accent); border:none; color:#111; }
+
+/* toggle password button */
+.toggle-pass{
+  position:absolute; right:10px; top:36px; border:0; background:transparent; color:var(--muted);
+}
+
+/* alerts */
+.alert{ border-radius:8px; }
+
+/* footer */
+footer{ font-size:13px; color:var(--muted); }
+
+/* responsiveness */
+@media (max-width: 991px){
+  .banner-panel{ display:none; }
+  main .row{ margin:0; }
+  #logoName{display: none;}
+}
+/* Make scrolling text take full available width */
+.scroll-wrapper {
+    flex: 1;                     /* occupy full remaining space */
+    text-align: center;          /* center align texts */
+    overflow: hidden;            /* hide overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main animation container */
+.scroll-text-container {
+    height: 24px;                /* height of one line */
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+/* Text style */
+.scroll-text-container span {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #367588;
+    animation: scrollUp 12s linear infinite;
+}
+
+/* Scroll-up keyframes */
+@keyframes scrollUp {
+    0%   { transform: translateY(0); }
+    20%  { transform: translateY(0); }
+
+    25%  { transform: translateY(-24px); }
+    45%  { transform: translateY(-24px); }
+
+    50%  { transform: translateY(-48px); }
+    70%  { transform: translateY(-48px); }
+
+    75%  { transform: translateY(-72px); }
+    95%  { transform: translateY(-72px); }
+
+    100% { transform: translateY(0); }
+}
+
+/* Side Confetti Base */
+.confetti-side {
+    position: relative;
+    width: 30px;
+    height: 24px;          /* match scroll text height */
+    overflow: visible;
+}
+
+/* Individual confetti pieces */
+.confetti-side::before,
+.confetti-side::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: confettiPop 2.5s infinite ease-out;
+}
+
+/* Two different colors for premium look */
+.confetti-side::before {
+    background: #FFA500;     /* orange */
+    animation-delay: 0.3s;
+}
+.confetti-side::after {
+    background: #367588;     /* brand teal */
+    animation-delay: 0.5s;
+}
+
+/* Mirror movement */
+.confetti-left::before { left: 10px; }
+.confetti-left::after { left: 18px; }
+
+.confetti-right::before { right: 10px; }
+.confetti-right::after { right: 18px; }
+
+/* Popper keyframes */
+@keyframes confettiPop {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.3) rotate(0deg);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1) rotate(45deg);
+    }
+    40% {
+        opacity: 1;
+        transform: translateY(-18px) scale(1.1) rotate(90deg);
+    }
+    70% {
+        opacity: .4;
+        transform: translateY(0px) scale(0.8) rotate(120deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.3) rotate(160deg);
+    }
+}

@@ -1,0 +1,11 @@
+API_KEY = Firebase apiKey
+
+AUTH_DOMAIN = authDomain
+
+PROJECT_ID = projectId
+
+STORAGE_BUCKET = storageBucket
+
+SENDER_ID = messagingSenderId
+
+APP_ID = appId
