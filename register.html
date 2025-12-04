@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register - Premium E-Commerce</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="premium-bg">
+
+  <!-- Header (same as index) -->
+  <header class="py-3 border-bottom bg-white">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <img src="FAVOFLEX.svg" alt="logo" style="height:70px">
+        <h3 id="logoName" class="mb-0 brand-text" style="font-family: 'Poppins', sans-serif;font-weight: 700;">
+            <span style="color: #FFA500;">FAVO</span><span style="color: #367588;">FLEX</span>
+        </h3>
+      </div>
+      <div class="scroll-wrapper">
+        <div class="scroll-text-container">
+            <span>Reinforce with your design</span>
+            <span>Become an artist</span>
+            <span>On 28.12.2025</span>
+            <span>Celebrating 1st year</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5 bg-white p-5 rounded shadow-sm">
+        <h3 class="fw-bold">Create account</h3>
+        <p class="text-muted small">Join our community</p>
+
+        <div id="alertReg"></div>
+
+        <form id="regForm" novalidate>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input id="regEmail" type="email" class="form-control premium-input" required>
+            <div class="invalid-feedback">Enter a valid email.</div>
+          </div>
+
+          <div class="mb-3 position-relative">
+            <label class="form-label">Password</label>
+            <input id="regPassword" type="password" class="form-control premium-input" required minlength="6">
+            <button type="button" class="btn btn-sm toggle-pass" id="toggleRegPass"><i class="bi bi-eye"></i></button>
+            <div class="invalid-feedback">Min 6 characters.</div>
+          </div>
+
+          <button id="regBtn" class="btn btn-warning w-100 premium-btn" type="submit">
+            <span id="regBtnText">Create Account</span>
+            <span id="regSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+          </button>
+
+          <div class="text-center my-3">or</div>
+
+          <button id="googleReg" type="button" class="btn btn-outline-secondary w-100">
+            <i class="bi bi-google me-2"></i> Continue with Google
+          </button>
+
+          <div class="text-center small mt-3">
+            Already a member? <a href="index.html">Login</a>
+          </div>
+           <div class="text-center text-muted small mt-4">By continuing, you agree to our Terms & Privacy.</div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white border-top py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+      <div>© <span id="y2"></span>2024-2025, Favoflex E-Commerce</div>
+      <div>
+        <a class="me-3 text-muted" href="#">Privacy</a>
+        <a class="text-muted" href="#">Help</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import {
+      auth,
+      createUserWithEmailAndPassword,
+      googleProvider,
+      signInWithPopup
+    } from "./firebase.js";
+
+    document.getElementById('y2').textContent = new Date().getFullYear();
+
+    function showLocalAlert(targetId, msg, type='danger'){
+      document.getElementById(targetId).innerHTML =
+        `<div class="alert alert-${type}">${msg}</div>`;
+    }
+
+    // toggle
+    document.getElementById('toggleRegPass').addEventListener('click', () => {
+      const inp = document.getElementById('regPassword');
+      const ico = document.querySelector('#toggleRegPass i');
+      if (inp.type === 'password') { inp.type = 'text'; ico.className = 'bi bi-eye-slash'; }
+      else { inp.type = 'password'; ico.className = 'bi bi-eye'; }
+    });
+
+    // registration
+    const regForm = document.getElementById('regForm');
+    regForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!regForm.checkValidity()) { regForm.classList.add('was-validated'); return; }
+
+      const btn = document.getElementById('regBtn');
+      btn.setAttribute('disabled',''); document.getElementById('regSpinner').classList.remove('d-none');
+
+      try {
+        await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value);
+        showLocalAlert('alertReg', 'Account created. Redirecting..', 'success');
+        setTimeout(()=> location.href='index.html', 900);
+      } catch(err) {
+        showLocalAlert('alertReg', err.message, 'danger');
+      } finally {
+        btn.removeAttribute('disabled'); document.getElementById('regSpinner').classList.add('d-none');
+      }
+    });
+
+    // google
+    document.getElementById('googleReg').addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, googleProvider);
+        showLocalAlert('alertReg', 'Signed in with Google', 'success');
+        setTimeout(()=> location.href='home.html', 700);
+      } catch (err) {
+        showLocalAlert('alertReg', err.message, 'danger');
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
